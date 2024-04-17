@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { FetchDataService } from './fetch-data.service';
+import { fetchDataServiceSpy } from './fetch-data.service.spy';
 
 // describe('AppComponent', () => {
 //   beforeEach(async () => {
@@ -31,9 +32,16 @@ import { FetchDataService } from './fetch-data.service';
 describe('AppComponent', () => {
   let component: AppComponent;
   let fetchDataService: jasmine.SpyObj<FetchDataService>;
+  const expectedCars = 
+    [ {make: 'Subaru', model: 'Outback', miles: 58232},
+    {make: 'Honda', model: 'Accord', miles: 39393},
+    {make: 'BMW', model: 'X3', miles: 4400}
+    ]
 
 
   beforeEach(async () => {
+    fetchDataService = fetchDataServiceSpy();
+    fetchDataService.getCars.and.returnValue(expectedCars);
     component = new AppComponent(fetchDataService);
   });
 
@@ -44,5 +52,10 @@ describe('AppComponent', () => {
     expect(component.title).toEqual('angular-testing');
   });
 
-  
+  it(`should fetch cars `, () => {
+    component.ngOnInit();
+    
+    expect(component.cars).toEqual(expectedCars);
+  });
+
 });
