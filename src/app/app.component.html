@@ -97,14 +97,10 @@
       <h1> Welcome to angular testing</h1>
     </div>
     <div>
-      <ul>
-        <li>Basic component testing</li>
-        <li>Basic component testing</li>
-        <li>Service testing</li>
-        <li>Observable testing using marble testing</li>
+      <ul *ngFor="let car of cars">
+        <li>{{car.make}} - {{car.model}} - {{car.miles}}</li>
        
       </ul>
     </div>
   </div>
 </main>
-<router-outlet />

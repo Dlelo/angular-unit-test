@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { FetchDataService } from './fetch-data.service';
 
 // describe('AppComponent', () => {
 //   beforeEach(async () => {
@@ -29,9 +30,11 @@ import { AppComponent } from './app.component';
 // });
 describe('AppComponent', () => {
   let component: AppComponent;
-  
+  let fetchDataService: jasmine.SpyObj<FetchDataService>;
+
+
   beforeEach(async () => {
-    component = new AppComponent();
+    component = new AppComponent(fetchDataService);
   });
 
   it('should create the app', () => {
@@ -40,4 +43,6 @@ describe('AppComponent', () => {
   it(`should have the 'angular-testing' title`, () => {
     expect(component.title).toEqual('angular-testing');
   });
+
+  
 });
