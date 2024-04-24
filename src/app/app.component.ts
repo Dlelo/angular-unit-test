@@ -29,12 +29,16 @@ export class AppComponent implements OnInit {
 
 ngOnInit(): void {
     this.cars = this.fetchDataService.getCars();
+    this.checkCarLength();
 }
 
 removeCar(): void{
   this.fetchDataService.removeCar();
-  
-  if(this.cars.length < 1){
+  this.checkCarLength();
+}
+
+private checkCarLength(){
+  if(this.cars === undefined || this.cars.length < 1){
     this.isCarsAvailableSubject$.next(false);
   }
 }

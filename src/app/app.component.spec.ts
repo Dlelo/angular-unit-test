@@ -58,14 +58,14 @@ describe('AppComponent', () => {
     expect(component.cars).toEqual(expectedCars);
   });
 
-   it('return observable true on component init using fake async', fakeAsync(() => {
+   it('should return isCarsAvailableSubject$ true on component init using fake async', fakeAsync(() => {
     component.isCarsAvailableSubject$.subscribe((isCar: boolean) => {
       expect(isCar).toEqual(true);
     });
     tick();
   }));
 
-  it(`should return observale true on init using marble testing `, () => {
+    it(`should return isCarsAvailableSubject$ true on init using marble testing `, () => {
     component.ngOnInit();
     expect(component.isCarsAvailableSubject$).toBeObservable(
       cold('(a)', {
@@ -73,7 +73,34 @@ describe('AppComponent', () => {
       }),
     );
   });
-
+ 
  
 
+  describe('test if no cars', () => {
+ 
+    it('should return isCarsAvailableSubject$ false using fake async', fakeAsync(() => {
+      fetchDataService.getCars.and.returnValue([]);
+      component.ngOnInit();
+      console.log(component.cars);
+      component.isCarsAvailableSubject$.subscribe((isCar: boolean) => {
+        expect(isCar).toEqual(false);
+      });
+      tick();
+    }));
+    
+
+     it(`should return isCarsAvailableSubject$ false using marble testing `, () => { 
+      fetchDataService.getCars.and.returnValue([]);
+      component.ngOnInit();
+      expect(component.isCarsAvailableSubject$).toBeObservable(
+      cold('(a)', {
+        a: false
+      }),
+    );
+  });
+
+  });
+
 });
+
+
