@@ -2,6 +2,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { FetchDataService } from './fetch-data.service';
 import { fetchDataServiceSpy } from './fetch-data.service.spy';
+import { cold } from 'jasmine-marbles';
 
 // describe('AppComponent', () => {
 //   beforeEach(async () => {
@@ -64,14 +65,14 @@ describe('AppComponent', () => {
     tick();
   }));
 
-  // it(`should return observale true on init using marble testing `, () => {
-  //   component.ngOnInit();
-  //   expect(component.isCarsAvailableSubject$).toBeObservable(
-  //     cold('(a|)', {
-  //       a: true
-  //     }),
-  //   );
-  // });
+  it(`should return observale true on init using marble testing `, () => {
+    component.ngOnInit();
+    expect(component.isCarsAvailableSubject$).toBeObservable(
+      cold('(a)', {
+        a: true
+      }),
+    );
+  });
 
  
 
