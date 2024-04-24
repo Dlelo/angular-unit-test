@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { FetchDataService } from './fetch-data.service';
 import { fetchDataServiceSpy } from './fetch-data.service.spy';
@@ -54,8 +54,25 @@ describe('AppComponent', () => {
 
   it(`should fetch cars `, () => {
     component.ngOnInit();
-    
     expect(component.cars).toEqual(expectedCars);
   });
+
+   it('return observable true on component init using fake async', fakeAsync(() => {
+    component.isCarsAvailableSubject$.subscribe((isCar: boolean) => {
+      expect(isCar).toEqual(true);
+    });
+    tick();
+  }));
+
+  // it(`should return observale true on init using marble testing `, () => {
+  //   component.ngOnInit();
+  //   expect(component.isCarsAvailableSubject$).toBeObservable(
+  //     cold('(a|)', {
+  //       a: true
+  //     }),
+  //   );
+  // });
+
+ 
 
 });

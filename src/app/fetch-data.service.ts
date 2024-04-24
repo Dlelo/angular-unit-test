@@ -21,5 +21,9 @@ export class FetchDataService {
  addCar(car: Car){
    this.cars.push(car);
  }
+
+ removeCar(){
+  this.cars.pop();
+ }
 }
 

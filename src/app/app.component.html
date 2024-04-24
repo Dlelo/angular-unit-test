@@ -94,13 +94,15 @@
 <main class="main">
   <div>
     <div>
-      <h1> Welcome to angular testing</h1>
+      <h1> Cars</h1>
     </div>
-    <div>
+    <div *ngIf="isCarsAvailableState$ | async; else noCar">
       <ul *ngFor="let car of cars">
         <li>{{car.make}} - {{car.model}} - {{car.miles}}</li>
-       
-      </ul>
+      </ul>  
     </div>
+    <ng-template #noCar><p>No car(s)</p></ng-template>
+    
+    <button (click)="removeCar()" *ngIf="isCarsAvailableState$ | async">Remove Car</button>
   </div>
 </main>
