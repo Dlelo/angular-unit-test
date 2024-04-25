@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
 
   readonly isCarsAvailableState$: Observable<boolean> = this.isCarsAvailableSubject$.asObservable();
 
-  title = 'angular-testing';
+  // title = 'angular-testing';
   cars!: Car[];
  
 
@@ -42,5 +42,4 @@ private checkCarLength(){
     this.isCarsAvailableSubject$.next(false);
   }
 }
-  
 }

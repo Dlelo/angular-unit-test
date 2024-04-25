@@ -27,7 +27,7 @@ import { cold } from 'jasmine-marbles';
 //     const fixture = TestBed.createComponent(AppComponent);
 //     fixture.detectChanges();
 //     const compiled = fixture.nativeElement as HTMLElement;
-//     expect(compiled.querySelector('h1')?.textContent).toContain('Welcome to angular testing');
+//     expect(compiled.querySelector('h1')?.textContent).toContain('Cars');
 //   });
 // });
 describe('AppComponent', () => {
@@ -49,9 +49,7 @@ describe('AppComponent', () => {
   it('should create the app', () => {
     expect(component).toBeTruthy();
   });
-  it(`should have the 'angular-testing' title`, () => {
-    expect(component.title).toEqual('angular-testing');
-  });
+
 
   it(`should fetch cars `, () => {
     component.ngOnInit();
@@ -73,7 +71,6 @@ describe('AppComponent', () => {
       }),
     );
   });
- 
  
 
   describe('test if no cars', () => {
