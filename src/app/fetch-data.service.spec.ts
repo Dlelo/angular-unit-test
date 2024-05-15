@@ -1,7 +1,4 @@
-import { TestBed } from '@angular/core/testing';
-
 import { FetchDataService } from './fetch-data.service';
-import { Component } from '@angular/core';
 
 describe('FetchDataService', () => {
   let service: FetchDataService;

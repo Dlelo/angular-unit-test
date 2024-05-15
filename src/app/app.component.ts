@@ -10,8 +10,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  providers:[FetchDataService]
+  styleUrls: ['./app.component.scss'],
+  providers: [FetchDataService]
 })
 export class AppComponent implements OnInit {
 
