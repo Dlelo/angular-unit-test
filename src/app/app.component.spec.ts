@@ -10,6 +10,7 @@ describe('AppComponent without TestBed', () => {
   let component: AppComponent;
   let fetchDataService: FetchDataServiceMock;
 
+
   beforeEach(() => {
     fetchDataService = new FetchDataServiceMock();
     component = new AppComponent(fetchDataService as any);
