@@ -1,79 +1,56 @@
+import { BehaviorSubject } from 'rxjs';
 import { AppComponent } from './app.component';
-import { FetchDataService } from './fetch-data.service';
-import { of } from 'rxjs';
-// import { fetchDataServiceSpy } from './fetch-data.service.spy';
-// import {cold } from 'jest-marbles';
+import { FetchDataServiceMock } from './fetch-data.service.mock';
+import { Car } from './car.interface';
 
+jest.mock('./app.component.html', () => '');
+jest.mock('./app.component.scss', () => '');
 
-describe('AppComponent', () => {
+describe('AppComponent without TestBed', () => {
   let component: AppComponent;
-  let fetchDataService: jasmine.SpyObj<FetchDataService>;
-  const expectedCars = 
-    [ {make: 'Subaru', model: 'Outback', miles: 58232},
-    {make: 'Honda', model: 'Accord', miles: 39393},
-    {make: 'BMW', model: 'X3', miles: 4400}
-    ]
+  let fetchDataService: FetchDataServiceMock;
 
-
-  beforeEach(async () => {
-    fetchDataService = jasmine.createSpyObj('FetchDataService', ['getCars']);
-    // fetchDataService = fetchDataServiceSpy();
-    fetchDataService.getCars.and.returnValue(expectedCars);
-    component = new AppComponent(fetchDataService);
+  beforeEach(() => {
+    fetchDataService = new FetchDataServiceMock();
+    component = new AppComponent(fetchDataService as any);
   });
 
-  it('should create the app', () => {
+  it('should create the app component', () => {
     expect(component).toBeTruthy();
   });
 
-
-  it(`should fetch cars `, () => {
+  it('should initialize cars and check car length on init', () => {
     component.ngOnInit();
-    expect(component.cars).toEqual(expectedCars);
+
+    expect(component.cars).toEqual(fetchDataService.cars);
+    expect(component.isCarsAvailableSubject$.getValue()).toBe(true);
   });
 
-   it('should return isCarsAvailableSubject$ true on component init using fake async', () => {
-    component.isCarsAvailableSubject$.subscribe((isCar: boolean) => {
-      expect(isCar).toEqual(true);
-    });
-   
+  it('should update isCarsAvailableSubject$ when no cars are available', () => {
+    fetchDataService.getCars = jest.fn().mockReturnValue([]);
+    component.ngOnInit();
+
+    expect(component.cars).toEqual([]);
+    expect(component.isCarsAvailableSubject$.getValue()).toBe(false);
   });
 
-  //   it(`should return isCarsAvailableSubject$ true on init using marble testing `, () => {
-  //   component.ngOnInit();
-  //   expect(component.isCarsAvailableSubject$).toBeObservable(
-  //     cold('(a)', {
-  //       a: true
-  //     }),
-  //   );
-  // });
- 
+  it('should call removeCar and update isCarsAvailableSubject$', () => {
+    component.ngOnInit();
+    component.removeCar();
 
-  describe('test if no cars', () => {
- 
-    it('should return isCarsAvailableSubject$ false using fake async', () => {
-      fetchDataService.getCars.and.returnValue([]);
-      component.ngOnInit();
-      console.log(component.cars);
-      component.isCarsAvailableSubject$.subscribe((isCar: boolean) => {
-        expect(isCar).toEqual(false);
-      });
-    
-    });
-    
-
-  //    it(`should return isCarsAvailableSubject$ false using marble testing `, () => { 
-  //     fetchDataService.getCars.and.returnValue([]);
-  //     component.ngOnInit();
-  //     expect(component.isCarsAvailableSubject$).toBeObservable(
-  //     cold('(a)', {
-  //       a: false
-  //     }),
-  //   );
-  // });
-
+    expect(fetchDataService.removeCar).toHaveBeenCalled();
+    expect(component.cars.length).toBe(2); // One car removed
+    expect(component.isCarsAvailableSubject$.getValue()).toBe(true);
   });
 
+  it('should update isCarsAvailableSubject$ to false when all cars are removed', () => {
+    component.ngOnInit();
+    component.removeCar();
+    component.removeCar();
+    component.removeCar();
+
+    expect(fetchDataService.removeCar).toHaveBeenCalledTimes(3);
+    expect(component.cars.length).toBe(0); // All cars removed
+    expect(component.isCarsAvailableSubject$.getValue()).toBe(false);
+  });
 });
-
-
