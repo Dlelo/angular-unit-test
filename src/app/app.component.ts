@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
 
   readonly isCarsAvailableState$: Observable<boolean> = this.isCarsAvailableSubject$.asObservable();
 
-  // title = 'angular-testing';
   cars!: Car[];
  
 
